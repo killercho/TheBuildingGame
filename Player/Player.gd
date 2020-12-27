@@ -11,6 +11,7 @@ var camera_x_rotation = 0
 
 onready var head = $Head
 onready var camera = $Head/Camera
+onready var label = $Head/Camera/Label
 
 func _input(event):
 	if event is InputEventMouseMotion:
@@ -29,6 +30,8 @@ func _physics_process(delta):
 	var walk_forward = Input.is_action_pressed("walk_forward")
 	var walk_back = Input.is_action_pressed("walk_back")
 	var jump = Input.is_action_pressed("jump")
+	var grab = Input.is_action_just_pressed("use")
+	var release_grabbed = Input.is_action_just_released("use")
 	
 	var direction = Vector3()
 	var head_basis = head.get_global_transform().basis
@@ -57,3 +60,8 @@ func _physics_process(delta):
 		velocity.y += JUMP_POWER
 	
 	velocity = move_and_slide(velocity, Vector3.UP)
+	
+	if grab:
+		print("I grabbed a box!")
+	if release_grabbed:
+		print("I released the item!")

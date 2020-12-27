@@ -3,7 +3,7 @@ extends Spatial
 var mouse_sens = 0.03
 var camera_anglev=0
 
-var box_scene = load("res://Box.tscn")
+var box_scene = load("res://Shapes/Box.tscn")
 var box_index = 0
 
 func _ready():
