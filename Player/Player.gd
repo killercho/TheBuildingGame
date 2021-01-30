@@ -61,7 +61,16 @@ func _physics_process(delta):
 	
 	velocity = move_and_slide(velocity, Vector3.UP)
 	
+#	Grab the shapes
 	if grab:
 		print("I grabbed a box!")
 	if release_grabbed:
 		print("I released the item!")
+
+
+func _on_LabelArea_body_entered(body):
+	label.visible = true
+
+
+func _on_LabelArea_body_exited(body):
+	label.visible = false
