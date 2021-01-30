@@ -12,8 +12,12 @@ var camera_x_rotation = 0
 onready var head = $Head
 onready var camera = $Head/Camera
 onready var label = $Head/Camera/Label
+onready var box = get_node("res://Shapes/Box.tscn")
+
+var close_for_grabbing = false
 
 func _input(event):
+#	Hadle mouse movement
 	if event is InputEventMouseMotion:
 		head.rotate_y(deg2rad(-event.relative.x * MOUSE_SENS))
 		
@@ -30,7 +34,7 @@ func _physics_process(delta):
 	var walk_forward = Input.is_action_pressed("walk_forward")
 	var walk_back = Input.is_action_pressed("walk_back")
 	var jump = Input.is_action_pressed("jump")
-	var grab = Input.is_action_just_pressed("use")
+	var grabbed = Input.is_action_pressed("use")
 	var release_grabbed = Input.is_action_just_released("use")
 	
 	var direction = Vector3()
@@ -56,21 +60,26 @@ func _physics_process(delta):
 	velocity = velocity.linear_interpolate(direction * SPEED, ACCELERATION * delta)
 	velocity.y -= GRAVITY
 	
+#	Jumping, may be switched in a further update with flight
 	if jump and is_on_floor():
 		velocity.y += JUMP_POWER
 	
 	velocity = move_and_slide(velocity, Vector3.UP)
 	
-#	Grab the shapes
-	if grab:
-		print("I grabbed a box!")
-	if release_grabbed:
-		print("I released the item!")
+#	Grabbing
+#	Use joints...?
+#	Raycast...?
+	if grabbed and close_for_grabbing:
+		print(PinJoint.new())
+		print("I grabbed a box")
+	if release_grabbed and close_for_grabbing:
+		print("I released a box")
 
-
+# Control the label's visability
 func _on_LabelArea_body_entered(body):
 	label.visible = true
-
-
+	close_for_grabbing = true
+	
 func _on_LabelArea_body_exited(body):
 	label.visible = false
+	close_for_grabbing = false

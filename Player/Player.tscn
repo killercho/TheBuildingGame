@@ -44,5 +44,6 @@ collision_mask = 4
 
 [node name="LabelCollision" type="CollisionShape" parent="LabelArea"]
 shape = SubResource( 3 )
+[connection signal="input_event" from="." to="." method="_on_Player_input_event"]
 [connection signal="body_entered" from="LabelArea" to="." method="_on_LabelArea_body_entered"]
 [connection signal="body_exited" from="LabelArea" to="." method="_on_LabelArea_body_exited"]
